@@ -53,21 +53,13 @@ RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
 ENV bower=/usr/local/bin/bower \
     grunt=/usr/local/bin/grunt
 
-# Install AzCopy (depends on .NET Core)
+# Download and install vsts Agent
+#RUN curl https://vstsagentpackage.azureedge.net/agent/2.139.1/vsts-agent-linux-x64-2.139.1.tar.gz > vsts-agent.tar.gz \
+# && mkdir vsts-agent \
+# && tar zxvf vsts-agent.tar.gz -C vsts-agent
+
 RUN apt-get update \
- && apt-get install -y --no-install-recommends azcopy \
+ && apt-get install -y --no-install-recommends \
+    libunwind8 \
+    libicu60 \
  && rm -rf /var/lib/apt/lists/*
-
-# Download hosted tool cache
-ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
-RUN azcopy --recursive --source https://vstsagenttools.blob.core.windows.net/tools/hostedtoolcache/linux --destination $AGENT_TOOLSDIRECTORY
-
-# Install the tools from the hosted tool cache
-RUN original_directory=$PWD \
- && setups=$(find $AGENT_TOOLSDIRECTORY -name setup.sh) \
- && for setup in $setups; do \
-        chmod +x $setup; \
-        cd $(dirname $setup); \
-        ./$(basename $setup); \
-        cd $original_directory; \
-    done;
