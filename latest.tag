@@ -1,1 +1,1 @@
-ubuntu-18.04-core-2.104-node-docker
+ubuntu-18.04-core-node

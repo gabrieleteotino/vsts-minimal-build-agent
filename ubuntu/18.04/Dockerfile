@@ -34,7 +34,16 @@ RUN \
     wget \
     zip \
     tzdata \
+    libunwind8 \
+    libicu60 \
+    locales \
+    build-essential \
  && rm -rf /var/lib/apt/lists/*
+
+# Setup the locale
+ENV LANG en_US.UTF-8
+ENV LC_ALL $LANG
+RUN locale-gen $LANG && update-locale
 
 # Download and install git-lfs (installing from packagecloud did not work well for me)
 RUN curl -sLO https://github.com/git-lfs/git-lfs/releases/download/v2.5.1/git-lfs-linux-amd64-v2.5.1.tar.gz \

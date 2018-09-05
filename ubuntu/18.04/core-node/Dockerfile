@@ -9,14 +9,14 @@ RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
 # RUN curl -L "https://packagecloud.io/github/git-lfs/gpgkey" 2> /dev/null | apt-key add - &>/dev/null
 # RUN apt-key adv --fetch-keys https://packagecloud.io/github/git-lfs/gpgkey
 
-# Setup the locale
-ENV LANG en_US.UTF-8
-ENV LC_ALL $LANG
-RUN apt-get update \
- && apt-get install -y --no-install-recommends \ 
-    locales \
- && locale-gen $LANG \
- && update-locale
+# # Setup the locale
+# ENV LANG en_US.UTF-8
+# ENV LC_ALL $LANG
+# RUN apt-get update \
+#  && apt-get install -y --no-install-recommends \ 
+#     locales \
+#  && locale-gen $LANG \
+#  && update-locale
 
 # Accept EULA - needed for certain Microsoft packages like SQL Server Client Tools
 ENV ACCEPT_EULA=Y
@@ -53,13 +53,8 @@ RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
 ENV bower=/usr/local/bin/bower \
     grunt=/usr/local/bin/grunt
 
-# Download and install vsts Agent
-#RUN curl https://vstsagentpackage.azureedge.net/agent/2.139.1/vsts-agent-linux-x64-2.139.1.tar.gz > vsts-agent.tar.gz \
-# && mkdir vsts-agent \
-# && tar zxvf vsts-agent.tar.gz -C vsts-agent
-
-RUN apt-get update \
- && apt-get install -y --no-install-recommends \
-    libunwind8 \
-    libicu60 \
- && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update \
+#  && apt-get install -y --no-install-recommends \
+#     libunwind8 \
+#     libicu60 \
+#  && rm -rf /var/lib/apt/lists/*
